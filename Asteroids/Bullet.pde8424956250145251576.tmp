@@ -1,0 +1,26 @@
+class Bullet
+{
+  PVector pos, speed;
+  int size, hp;
+  color colour;
+  
+  public Bullet(PVector pos, PVector dir, int size)
+  {
+    this.pos = pos;
+    speed = dir.setMag(8);
+    this.size = size;
+  }
+  
+  void show()
+  {
+    stroke(255);
+    strokeWeight(size / 7);
+    
+    line(pos.x, pos.y, pos.x, pos.y - size / 10);
+  }
+  
+  void act()
+  {
+    pos.add(speed);
+  }
+}
