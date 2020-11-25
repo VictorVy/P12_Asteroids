@@ -5,7 +5,7 @@ class Player extends GameObject
   float turnSpeed, airRes;
   
   boolean moveF, moveB, turnL, turnR, shoot;
-  int shootTimer;
+  int shootTimer, exhaustTimer;
   
   public Player()
   {
@@ -16,8 +16,9 @@ class Player extends GameObject
     hp = 3;
     colour = 255;
     turnSpeed = radians(4);
-    shootTimer = 60;
+    shootTimer = 20;
     airRes = 0.04;
+    exhaustTimer = 0;
   }
   
   void init()
@@ -63,6 +64,22 @@ class Player extends GameObject
     if(speed.mag() > maxSpeed)
       speed.setMag(maxSpeed);
     
+    //shooting
+    shootTimer++;
+    if(shoot && shootTimer >= 20)
+    {
+      gameObjects.add(new Bullet(pos.copy(), dir.copy(), size / 6));
+      shootTimer = 0;
+    }
+    
+    //exhaust
+    exhaustTimer++;;
+    if(moveF && exhaustTimer >= 6)
+    {
+      gameObjects.add(new Exhaust(new PVector(pos.x, pos.y), new PVector(random(-0.5, 0.5), random(-0.5, -1.5)), random(size / 6, size / 2), random(128, 216), random(2, 6), random(-8, 8)));
+      exhaustTimer = 0;
+    }
+    
     //bounds
     if(pos.x > width + size / 2)
       pos.x = -(size / 2);
@@ -72,13 +89,5 @@ class Player extends GameObject
       pos.y = -(size / 2);
     else if(pos.y < -(size / 2))
       pos.y = height + size / 2;
-    
-    //shooting
-    shootTimer++;
-    if(shoot && shootTimer >= 20)
-    {
-      gameObjects.add(new Bullet(pos.copy(), dir.copy(), size / 6));
-      shootTimer = 0;
-    }
   }
 }

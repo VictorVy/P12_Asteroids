@@ -10,9 +10,6 @@ final int GAMEOVER = 3;
 Button bStart;
 Button bQuit;
 
-Button bGameover;
-Button bPause;
-
 Button bResume;
 
 Button bRestart;
@@ -22,15 +19,13 @@ Player player;
 void setup()
 {
   size(800, 600);
+  frameRate(75);
   rectMode(CENTER);
   
   mode = INTRO;
   
   bStart = new Button(width / 2, height / 2, 200, 100, "start");
   bQuit = new Button(width / 2, height - height / 4, 200, 100, "quit");
-  
-  bGameover = new Button(width / 2, height / 2, 200, 100, "end");
-  bPause = new Button(width / 2, height - height / 4, 200, 100, "pause");
   
   bResume = new Button(width / 2, height / 2, 200, 100, "resume");
   

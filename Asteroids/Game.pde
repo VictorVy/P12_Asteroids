@@ -117,8 +117,5 @@ void gameKR()
 
 void gameMR()
 {
-  if(bGameover.mouseOver())
-    mode = GAMEOVER;
-  if(bPause.mouseOver())
-    mode = PAUSE;
+  
 }
