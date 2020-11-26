@@ -22,6 +22,9 @@ void introMR()
   {
     mode = GAME;
     gameSetup();
+    
+    if(!gameObjects.contains(player))
+      gameObjects.add(player);
   }
   if(bQuit.mouseOver())
     exit();

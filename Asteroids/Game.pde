@@ -12,9 +12,6 @@ void gameDraw()
 {
   background(0);
   
-  player.show();
-  player.act();
-  
   astrdTimer++;
   if(astrdTimer >= 300 && random(1) <= 0.9)
   {
@@ -23,6 +20,9 @@ void gameDraw()
   }
   
    handleGameObjects();
+   
+   if(player.hp <= 0)
+     mode = GAMEOVER;
 }
 
 void handleGameObjects()

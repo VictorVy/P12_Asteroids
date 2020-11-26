@@ -40,7 +40,7 @@ class Meteor extends GameObject
     {
       GameObject object = gameObjects.get(i);
       
-      if(object instanceof Bullet && colliding(object))
+      if(!(object instanceof Meteor) && colliding(object))
       {
         hp--;
         object.hp--;

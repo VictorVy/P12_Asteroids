@@ -13,7 +13,6 @@ class Player extends GameObject
     
     maxSpeed = 5;
     size = 30;
-    hp = 3;
     colour = 255;
     turnSpeed = radians(4);
     shootTimer = 20;
@@ -26,6 +25,7 @@ class Player extends GameObject
     pos = new PVector(width / 2, height / 2);
     speed = new PVector(0, 0);
     dir = new PVector(0, -0.12);
+    hp = 3;
   }
   
   void show()
