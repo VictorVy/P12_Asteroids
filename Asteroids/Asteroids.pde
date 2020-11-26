@@ -18,7 +18,7 @@ Player player;
 
 void setup()
 {
-  size(800, 600);
+  size(1080, 720);
   frameRate(75);
   rectMode(CENTER);
   

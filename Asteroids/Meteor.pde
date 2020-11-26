@@ -40,14 +40,21 @@ class Meteor extends GameObject
     {
       GameObject object = gameObjects.get(i);
       
-      if(!(object instanceof Meteor) && colliding(object))
+      pushMatrix();
+      
+      translate(pos.x, pos.y);
+      rotate(dir);
+      
+      if(object instanceof Player && colliding(object))
+        player.takeDamage();
+      else if(object instanceof Bullet && colliding(object))
       {
         hp--;
         object.hp--;
         
         if(hp == 0)
         {
-          if(size > 100)
+          if(size > 100) //new meteors
           {
             float random = random(2, 4);
             for(int k = 0; k < random; k++)
@@ -55,8 +62,15 @@ class Meteor extends GameObject
           }
           else
             i--;
+            
+          //explosion particles
+          float random = random(6, 10);
+          for(int k = 0; k < random; k++)
+            gameObjects.add(new Particle(pos.copy(), new PVector(random(-3, 3), random(-3, 3)), random(size / 8, size / 4), random(200, 250), random(4, 8), random(-8, 8)));
         }
       }
+      
+      popMatrix();
     }
     
     //bounds

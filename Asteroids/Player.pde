@@ -4,20 +4,21 @@ class Player extends GameObject
   int maxSpeed;
   float turnSpeed, airRes;
   
-  boolean moveF, moveB, turnL, turnR, shoot;
-  int shootTimer, exhaustTimer;
+  boolean moveF, moveB, turnL, turnR, shoot, damageFlicker;
+  int shootTimer, exhaustTimer, damageTimer, flickerSpeed;;
   
   public Player()
   {
     init();
     
-    maxSpeed = 5;
+    maxSpeed = 4;
     size = 30;
     colour = 255;
     turnSpeed = radians(4);
     shootTimer = 20;
     airRes = 0.04;
     exhaustTimer = 0;
+    flickerSpeed = 10;
   }
   
   void init()
@@ -26,12 +27,20 @@ class Player extends GameObject
     speed = new PVector(0, 0);
     dir = new PVector(0, -0.12);
     hp = 3;
+    damageTimer = -1;
+    
+    moveF = moveB = turnL = turnR = shoot = damageFlicker = false;
   }
   
   void show()
   {
     noFill();
-    stroke(colour);
+    
+    if(damageFlicker)
+      stroke(colour, 64);
+    else
+      stroke(colour, 255);
+    
     strokeWeight(size / 7);
     
     pushMatrix();
@@ -72,13 +81,22 @@ class Player extends GameObject
       shootTimer = 0;
     }
     
-    //exhaust
-    exhaustTimer++;;
+    //exhaust particles
+    exhaustTimer++;
     if(moveF && exhaustTimer >= 6)
     {
-      gameObjects.add(new Exhaust(new PVector(pos.x, pos.y), new PVector(random(-0.5, 0.5), random(-0.5, -1.5)), random(size / 6, size / 2), random(128, 216), random(2, 6), random(-8, 8)));
+      gameObjects.add(new Particle(new PVector(pos.x, pos.y), new PVector(random(-0.5, 0.5), random(-0.5, -1.5)), random(size / 6, size / 2), random(128, 216), random(2, 6), random(-8, 8)));
       exhaustTimer = 0;
     }
+    
+    //handling damage
+    if (damageTimer > -1)
+      damageTimer--;
+    else
+      damageFlicker = false;
+    
+    if(damageTimer % flickerSpeed == 0)
+      damageFlicker = !damageFlicker;
     
     //bounds
     if(pos.x > width + size / 2)
@@ -89,5 +107,20 @@ class Player extends GameObject
       pos.y = -(size / 2);
     else if(pos.y < -(size / 2))
       pos.y = height + size / 2;
+  }
+  
+  void takeDamage()
+  {
+    if(damageTimer <= 0)
+    {
+      hp--;
+      damageTimer = 180;
+      damageFlicker = true;
+      
+      //explosion particles
+      float random = random(8, 12);
+      for(int k = 0; k < random; k++)
+        gameObjects.add(new Particle(pos.copy(), new PVector(random(-3, 3), random(-3, 3)), random(size / 6, size / 2), random(200, 250), random(4, 8), random(-8, 8)));
+    }
   }
 }

@@ -1,11 +1,13 @@
-boolean up, down, left, right;
-ArrayList<GameObject> gameObjects = new ArrayList();
+boolean up, down, left, right, noParticles;
+ArrayList<GameObject> gameObjects;
 
-int astrdTimer = 300;
+int astrdTimer = 360;
 
 void gameSetup()
 {
   player.init();
+  gameObjects = new ArrayList();
+  noParticles = true;
 }
 
 void gameDraw()
@@ -21,9 +23,9 @@ void gameDraw()
   
    handleGameObjects();
    
-   if(player.hp <= 0)
+   if(player.hp <= 0 && noParticles)
      mode = GAMEOVER;
-}
+ }
 
 void handleGameObjects()
 {
@@ -41,6 +43,8 @@ void handleGameObjects()
       gameObjects.remove(object);
       i--;
     }
+    
+    noParticles = !(object instanceof Particle);
   }
 }
 
