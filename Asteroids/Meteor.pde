@@ -36,8 +36,7 @@ class Meteor extends GameObject
     super.act();
     
     //collision
-    int i = 0;
-    while(i < gameObjects.size())
+    for(int i = 0; i < gameObjects.size(); i++) //will not loop properly due to same loop in Game tab
     {
       GameObject object = gameObjects.get(i);
       
@@ -54,21 +53,21 @@ class Meteor extends GameObject
             for(int k = 0; k < random; k++)
               gameObjects.add(new Meteor(new PVector(pos.x, pos.y), new PVector(random(-2, 2), random(-2, 2)), random(40, 80), 1, random(-1.5, 1.5)));
           }
+          else
+            i--;
         }
       }
-      
-      i++;
     }
     
     //bounds
-    if(pos.x > width + size / 2)
-      pos.x = -(size / 2);
-    else if(pos.x < -(size / 2))
-      pos.x = width + size / 2;
-    if(pos.y > height + size / 2)
-      pos.y = -(size / 2);
-    else if(pos.y < 0 - size / 2)
-      pos.y = height + size / 2;
+    if(pos.x > width + size / 1.5)
+      pos.x = -(size / 1.5);
+    else if(pos.x < -(size / 1.5))
+      pos.x = width + size / 1.5;
+    if(pos.y > height + size / 1.5)
+      pos.y = -(size / 1.5);
+    else if(pos.y < -(size /1.5))
+      pos.y = height + size / 1.5;
   }
   
   public boolean colliding(GameObject object)
