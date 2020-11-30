@@ -3,7 +3,7 @@ class Bullet extends GameObject
   public Bullet(PVector pos, PVector dir, float size)
   {
     this.pos = pos;
-    speed = dir.setMag(8);
+    speed = dir.setMag(10);
     this.size = size;
     hp = 1;
   }

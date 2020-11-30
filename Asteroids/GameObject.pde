@@ -19,4 +19,9 @@ class GameObject
   {
     pos.add(speed);
   }
+  
+  void introAct()
+  {
+    
+  }
 }

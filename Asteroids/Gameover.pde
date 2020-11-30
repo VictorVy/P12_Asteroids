@@ -1,8 +1,13 @@
 void gameoverDraw()
 {
-  background(255, 0, 0);
+  background(0); //TODO: overlay layer with incrementing alpha over background snapshot
   
-  bRestart.show();
+  if(!transition)
+    fadeInUI();
+  else
+    fadeOutUI();
+  
+  bRetry.show();
   bQuit.show();
 }
 
@@ -18,8 +23,11 @@ void gameoverKR()
 
 void gameoverMR()
 {
-  if(bRestart.mouseOver())
+  if(bRetry.mouseOver())
+  {
     mode = INTRO;
+    introSetup();
+  }
   if(bQuit.mouseOver())
     exit();
 }

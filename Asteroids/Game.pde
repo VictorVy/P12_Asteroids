@@ -1,12 +1,11 @@
 boolean up, down, left, right, noParticles;
-ArrayList<GameObject> gameObjects;
 
 int astrdTimer = 360;
 
 void gameSetup()
 {
-  player.init();
   gameObjects = new ArrayList();
+  gameObjects.add(player);
   noParticles = true;
 }
 
@@ -15,10 +14,10 @@ void gameDraw()
   background(0);
   
   astrdTimer++;
-  if(astrdTimer >= 300 && random(1) <= 0.9)
+  if(astrdTimer >= 360 && random(1) <= 0.9)
   {
     astrdTimer = 0;
-    spawnMeteor();
+    gameMeteor();
   }
   
    handleGameObjects();
@@ -48,7 +47,7 @@ void handleGameObjects()
   }
 }
 
-void spawnMeteor()
+void gameMeteor()
 {
   PVector pos;
   PVector speed = new PVector(random(-2, 2), random(-2, 2));

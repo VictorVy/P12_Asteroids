@@ -31,6 +31,15 @@ class Meteor extends GameObject
     popMatrix();
   }
   
+  void introAct()
+  {
+    super.act();
+    
+    //bounds
+    if(pos.y > height + size / 1.5)
+      hp = 0;
+  }
+  
   void act()
   {
     super.act();

@@ -32,6 +32,17 @@ class Particle extends GameObject
     popMatrix();
   }
   
+  void introAct()
+  {
+    super.act();
+    
+    if(speed.mag() > 0)
+      speed.setMag(speed.mag() - airRes);
+    
+    if(alpha <= 0)
+      hp = 0;
+  }
+  
   void act()
   {
     super.act();

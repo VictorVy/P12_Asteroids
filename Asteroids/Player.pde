@@ -5,7 +5,10 @@ class Player extends GameObject
   float turnSpeed, airRes;
   
   boolean moveF, moveB, turnL, turnR, shoot, damageFlicker;
-  int shootTimer, exhaustTimer, damageTimer, flickerSpeed;;
+  int shootTimer, exhaustTimer, damageTimer, flickerSpeed;
+  
+  boolean introHover = false;
+  boolean introMoveF = false;
   
   public Player()
   {
@@ -23,7 +26,7 @@ class Player extends GameObject
   
   void init()
   {
-    pos = new PVector(width / 2, height / 2);
+    pos = new PVector(width / 2, height - height / 3);
     speed = new PVector(0, 0);
     dir = new PVector(0, -0.12);
     hp = 3;
@@ -54,15 +57,74 @@ class Player extends GameObject
     popMatrix();
   }
   
+  void introAct()
+  {
+    super.act();
+    
+    //movement
+    if(!introHover)
+    {
+      if(!transition)
+      {
+        //coming on screen
+        if(pos.y > height - height / 3)
+        {
+          speed.setMag(maxSpeed);
+          moveF(dir);
+        }
+        else if(speed.mag() > 0.01)
+          speed.setMag(speed.mag() - airRes);
+        else
+          introHover = true;
+      }
+      else
+      {
+        //transitioning to GAME mode
+        if(pos.y < height - height / 3)
+          moveB(dir.copy().div(4));
+      }
+    }
+    else
+    {
+      //moving back and forth
+      if(introMoveF)
+      {
+        moveF(dir.copy().div(10));
+        if(pos.y < height / 2 - 20)
+          introMoveF = false;
+      }
+      else
+      {
+        moveB(dir.copy().div(10));
+        if(pos.y > height / 2 - 20)
+          introMoveF = true;
+      }
+      
+      if(speed.mag() > maxSpeed / 4)
+        speed.setMag(maxSpeed / 4);
+    }
+    
+    //exhaust particles
+    if(!transition)
+    {
+      exhaustTimer++;
+      if(exhaustTimer >= 5)
+      {
+        gameObjects.add(new Particle(new PVector(pos.x, pos.y), new PVector(random(-0.5, 0.5), random(3, 6)), random(size / 6, size / 2), random(128, 216), random(2, 6), random(-8, 8)));
+        exhaustTimer = 0;
+      }
+    }
+  }
+  
   void act()
   {
     super.act();
     
     //movement
     if(moveF)
-      speed.add(dir);
+      moveF(dir);
     if(moveB)
-      speed.sub(dir);
+      moveB(dir);
     if(turnL)
       dir.rotate(-turnSpeed);
     if(turnR)
@@ -74,20 +136,10 @@ class Player extends GameObject
       speed.setMag(maxSpeed);
     
     //shooting
-    shootTimer++;
-    if(shoot && shootTimer >= 20)
-    {
-      gameObjects.add(new Bullet(pos.copy(), dir.copy(), size / 6));
-      shootTimer = 0;
-    }
+    shoot();
     
     //exhaust particles
-    exhaustTimer++;
-    if(moveF && exhaustTimer >= 6)
-    {
-      gameObjects.add(new Particle(new PVector(pos.x, pos.y), new PVector(random(-0.5, 0.5), random(-0.5, -1.5)), random(size / 6, size / 2), random(128, 216), random(2, 6), random(-8, 8)));
-      exhaustTimer = 0;
-    }
+    exhaust();
     
     //handling damage
     if (damageTimer > -1)
@@ -107,6 +159,29 @@ class Player extends GameObject
       pos.y = -(size / 2);
     else if(pos.y < -(size / 2))
       pos.y = height + size / 2;
+  }
+  
+  void moveF(PVector dir) { speed.add(dir); }
+  void moveB(PVector dir) { speed.sub(dir); }
+  
+  void shoot()
+  {
+    shootTimer++;
+    if(shoot && shootTimer >= 20)
+    {
+      gameObjects.add(new Bullet(pos.copy(), dir.copy(), size / 6));
+      shootTimer = 0;
+    }
+  }
+  
+  void exhaust()
+  {
+    exhaustTimer++;
+    if(moveF && exhaustTimer >= 5)
+    {
+      gameObjects.add(new Particle(new PVector(pos.x, pos.y), new PVector(random(-0.5, 0.5), random(0.5, 1.5)), random(size / 6, size / 2), random(128, 216), random(2, 6), random(-8, 8)));
+      exhaustTimer = 0;
+    }
   }
   
   void takeDamage()
