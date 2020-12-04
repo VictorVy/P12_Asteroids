@@ -7,14 +7,9 @@ final int PAUSE = 2;
 final int GAMEOVER = 3;
 
 //objects
-Button bStart;
-Button bQuit;
+Button bStart, bQuit, bResume, bRetry;
 
 ArrayList<GameObject> gameObjects = new ArrayList();
-
-Button bResume;
-
-Button bRetry;
 
 Player player;
 
@@ -22,10 +17,12 @@ Player player;
 PFont font, fontBold;
 int btnSize = 200;
 
-boolean transition = false;
+PImage snapshot;
 
+boolean transition = false;
 int alphaUI = 0;
 int fadeSpeedUI = 255 / 75;
+int alphaBG = 0;
 
 void setup()
 {
@@ -40,9 +37,7 @@ void setup()
 
   bStart = new Button(width / 2, height - height / 3, btnSize, btnSize / 2, "start");
   bQuit = new Button(width / 2, height - height / 6, btnSize, btnSize / 2, "quit");
-  
-  bResume = new Button(width / 2, height / 2, btnSize, btnSize / 2, "resume");
-  
+    
   bRetry = new Button(width / 2, height - height / 3, btnSize, btnSize / 2, "retry");
   
   introSetup();

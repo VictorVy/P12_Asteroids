@@ -5,6 +5,8 @@ class GameObject
   int hp;
   color colour;
   
+  boolean friendly;
+  
   public GameObject()
   {
     

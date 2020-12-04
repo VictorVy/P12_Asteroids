@@ -22,6 +22,8 @@ class Player extends GameObject
     airRes = 0.04;
     exhaustTimer = 0;
     flickerSpeed = 10;
+    
+    friendly = true;
   }
   
   void init()
@@ -138,6 +140,9 @@ class Player extends GameObject
     //shooting
     shoot();
     
+    //collision
+    collide();
+    
     //exhaust particles
     exhaust();
     
@@ -169,7 +174,7 @@ class Player extends GameObject
     shootTimer++;
     if(shoot && shootTimer >= 20)
     {
-      gameObjects.add(new Bullet(pos.copy(), dir.copy(), size / 6));
+      gameObjects.add(new Bullet(pos.copy(), dir.copy(), size / 6, 10, true));
       shootTimer = 0;
     }
   }
@@ -197,5 +202,33 @@ class Player extends GameObject
       for(int k = 0; k < random; k++)
         gameObjects.add(new Particle(pos.copy(), new PVector(random(-3, 3), random(-3, 3)), random(size / 6, size / 2), random(200, 250), random(4, 8), random(-8, 8)));
     }
+  }
+  
+  void collide()
+  {
+    for(int i = 0; i < gameObjects.size(); i++) //will not loop properly due to same loop in other tabs
+    {
+      GameObject object = gameObjects.get(i);
+      
+      pushMatrix();
+      
+      translate(pos.x, pos.y);
+      rotate(dir.heading());
+      
+      if(object instanceof Bullet && !object.friendly && colliding(object))
+      {
+        takeDamage();
+        object.hp--;
+      }
+      if(object instanceof UFO && colliding(object))
+        takeDamage();
+      
+      popMatrix();
+    }
+  }
+  
+  boolean colliding(GameObject object)
+  {
+    return object.pos.x >= pos.x - size / 3 && object.pos.x <= pos.x + size / 3 && object.pos.y >= pos.y - size / 3 && object.pos.y <= pos.y + size / 3;
   }
 }

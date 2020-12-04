@@ -1,11 +1,12 @@
 class Bullet extends GameObject
-{
-  public Bullet(PVector pos, PVector dir, float size)
+{ 
+  public Bullet(PVector pos, PVector dir, float size, int setSpeed, boolean friendly)
   {
     this.pos = pos;
-    speed = dir.setMag(10);
+    speed = dir.setMag(setSpeed);
     this.size = size;
     hp = 1;
+    this.friendly = friendly;
   }
   
   void show()

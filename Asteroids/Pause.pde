@@ -1,8 +1,13 @@
 void pauseDraw()
 {
-  background(126);
+  //background
+  image(snapshot, 0, 0);
+  noStroke();
+  fill(255, 32);
+  rect(width / 2, height / 2, width, height);
   
-  bResume.show();
+  alphaUI = 255;
+  
   bQuit.show();
 }
 
@@ -13,13 +18,22 @@ void pauseKP()
 
 void pauseKR()
 {
-  
+  switch(key)
+  {
+    case 'p':
+      alphaUI = 0;
+      mode = GAME;
+      break;
+  }
 }
 
 void pauseMR()
 {
-  if(bResume.mouseOver())
-    mode = GAME;
   if(bQuit.mouseOver())
     exit();
+  else
+  {
+    alphaUI = 0;
+    mode = GAME;
+  }
 }

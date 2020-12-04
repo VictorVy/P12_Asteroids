@@ -45,7 +45,7 @@ class Meteor extends GameObject
     super.act();
     
     //collision
-    for(int i = 0; i < gameObjects.size(); i++) //will not loop properly due to same loop in Game tab
+    for(int i = 0; i < gameObjects.size(); i++) //will not loop properly due to same loop in other tabs
     {
       GameObject object = gameObjects.get(i);
       
@@ -56,7 +56,7 @@ class Meteor extends GameObject
       
       if(object instanceof Player && colliding(object))
         player.takeDamage();
-      else if(object instanceof Bullet && colliding(object))
+      else if(object instanceof Bullet && object.friendly && colliding(object))
       {
         hp--;
         object.hp--;
@@ -89,7 +89,7 @@ class Meteor extends GameObject
       pos.x = width + size / 1.5;
     if(pos.y > height + size / 1.5)
       pos.y = -(size / 1.5);
-    else if(pos.y < -(size /1.5))
+    else if(pos.y < -(size / 1.5))
       pos.y = height + size / 1.5;
   }
   
