@@ -21,6 +21,7 @@ class Button
     noStroke();
     textFont(font);
     textSize(h / 1.5);
+    textAlign(CENTER, CENTER);
     
     boolean mouseOver = mouseOver();
 

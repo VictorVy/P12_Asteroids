@@ -86,6 +86,7 @@ class UFO extends GameObject
       {
         takeDamage();
         object.hp--;
+        score += 10;
       }
       
       popMatrix();

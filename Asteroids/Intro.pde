@@ -73,8 +73,13 @@ void title()
   fill(255, alphaUI);
   textFont(fontBold);
   textSize(128);
+  textAlign(CENTER, CENTER);
   
   text("ASTEROIDS", width / 2, height / 5);
+  
+  //high score
+  textSize(32);
+  text("high score: " + highScore, width / 2, height / 12);
 }
 
 void introKP()

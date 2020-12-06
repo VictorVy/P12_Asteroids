@@ -41,10 +41,7 @@ class Player extends GameObject
   {
     noFill();
     
-    if(damageFlicker)
-      stroke(colour, 64);
-    else
-      stroke(colour, 255);
+    stroke(colour, damageFlicker ? 64 : 255);
     
     strokeWeight(size / 7);
     

@@ -1,3 +1,7 @@
+/*
+Hi Mr.Pelletier, check out the high score system! Please let me know there is a better or more optimal way of doing these 'cookies'. Thanks!
+*/
+
 //modes
 int mode = -1;
 
@@ -24,13 +28,15 @@ int alphaUI = 0;
 int fadeSpeedUI = 255 / 75;
 int alphaBG = 0;
 
+int highScore = 0;
+int score;
+
 void setup()
 {
   mode = INTRO;
   
   size(1080, 720, P2D);
   rectMode(CENTER);
-  textAlign(CENTER, CENTER);
   
   font = createFont("Quicksand-Light.ttf", 255);
   fontBold = createFont("Quicksand-Regular.ttf", 255);
@@ -39,6 +45,15 @@ void setup()
   bQuit = new Button(width / 2, height - height / 6, btnSize, btnSize / 2, "quit");
     
   bRetry = new Button(width / 2, height - height / 3, btnSize, btnSize / 2, "retry");
+  
+  //high score file
+  if(sketchFile("highscore.txt").isFile())
+    highScore = Integer.parseInt(loadStrings("highscore.txt")[0]);
+  else
+  {
+    createWriter("highscore.txt");
+    saveStrings("highscore.txt", new String[]{"0"});
+  }
   
   introSetup();
 }

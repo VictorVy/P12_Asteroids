@@ -63,6 +63,8 @@ class Meteor extends GameObject
         
         if(hp == 0)
         {
+          score++;
+          
           if(size > 100) //new meteors
           {
             float random = random(2, 4);

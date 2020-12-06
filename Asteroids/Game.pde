@@ -5,6 +5,7 @@ int ufoTimer = 0;
 
 void gameSetup()
 {
+  score = 0;
   gameObjects = new ArrayList();
   gameObjects.add(player);
   noParticles = true;
@@ -12,8 +13,8 @@ void gameSetup()
 
 void gameDraw()
 {
-  
   background(0);
+  fadeInUI();
   
   //spawn meteors
   astrdTimer++;
@@ -33,11 +34,28 @@ void gameDraw()
   
   handleGameObjects();
   
+  //display lives
+  noStroke();
+  fill(255, player.damageFlicker ? alphaUI / 4 : alphaUI);
+  for(int i = 0; i < player.hp; i++)
+    circle(30 + 40 * i, 30, 30);
+  
+  //display score
+  fill(255, player.damageFlicker ? alphaUI / 4 : alphaUI);
+  textFont(fontBold);
+  textSize(30);
+  textAlign(RIGHT, CENTER);
+  text("score: " + score, width - 30, 30);
+  
   //handle gameover
   if(player.hp <= 0 && noParticles)
   {
-    snapshot = get();
+    highScore = Math.max(highScore, score);
+    saveStrings("highscore.txt", new String[]{String.valueOf(highScore)});
+    
+    alphaUI = 0;
     alphaBG = 0;
+    snapshot = get();
     mode = GAMEOVER;
   }
 }

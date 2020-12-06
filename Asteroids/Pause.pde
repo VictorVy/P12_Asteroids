@@ -8,6 +8,14 @@ void pauseDraw()
   
   alphaUI = 255;
   
+  //display high score
+  fill(255, alphaUI);
+  textFont(fontBold);
+  textSize(80);
+  textAlign(CENTER, CENTER);
+  
+  text("HIGH SCORE: " + highScore, width / 2, height / 4);
+  
   bQuit.show();
 }
 
@@ -21,7 +29,6 @@ void pauseKR()
   switch(key)
   {
     case 'p':
-      alphaUI = 0;
       mode = GAME;
       break;
   }
@@ -32,8 +39,5 @@ void pauseMR()
   if(bQuit.mouseOver())
     exit();
   else
-  {
-    alphaUI = 0;
     mode = GAME;
-  }
 }
